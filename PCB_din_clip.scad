@@ -1,4 +1,4 @@
-// Remix of http://www.thingiverse.com/thing:806093
+
 
 include <cyl_head_bolt.scad>
 
@@ -7,7 +7,7 @@ CLIP_H = 10;
 // Holes diameter
 HOLE_DIAMETER = 3.1;
 // Distance between the 2 holes
-PILLAR_PITCH = 93.7;
+PILLAR_PITCH = 93.98;
 
 // Height of the mounting bar
 MOUNT_H = 5;
@@ -24,8 +24,7 @@ module shape()
     xm = min([ for (x=p) x[0] ]);
     ym = min([ for (x=p) x[1] ]); 
     echo([xm, ym]);
-    translate([0,22.183,0]) // This offset is know by displaying 
-                            // DXF file a CAD software
+    translate([0,22.183,0])                
         rotate([180,0,0])
             translate([-xm, -ym])
                 polygon(p);
@@ -37,7 +36,6 @@ module din_clip() {
 		
 		union() {
             linear_extrude(height=CLIP_H, center=true, convexity=5) {
-                //import(file="PCB_din_clip.dxf", $fn=64);
                 shape();
             }
 		      
@@ -73,164 +71,34 @@ module din_clip() {
     }
 }
 
-module clip(){
-     translate(-[15,0,0]){
-     rotate([0,90,0]){
-	  translate([0,0,-15]){
-     cylinder(30,3.1,3.,$fn=50);
-     }
-	  }
-	  }
-  
-      cube([PILLAR_H-2,8,CLIP_H-2], center = true);
- 
-	  }
-
-
-module clip2(){
-     translate(-[15,0,0]){
-     rotate([0,90,0]){
-	  translate([0,0,-15]){
-     cylinder(30,3.1,3.,$fn=50);
-     }
-     }
-	  }
-  
-      cube([PILLAR_H-2,8,CLIP_H-2], center = true);
- 
-	  }
 
 
 
-
-translate([0,0,5]){
-difference(){
-din_clip();
-//difference() {
-translate([-3,PILLAR_PITCH/2,0]){
-rotate([0,270,0]){
- nutcatch_parallel("M3", l=5);
-translate([0, 0, 50]) hole_through(name="M3", l=50+5, cl=0.1, h=10, hcl=0.4);
-//	translate([55, 0, 9]) nutcatch_sidecut("M5", l=100, clk=0.1, clh=0.1, clsl=0.1);
-}
-}
-
-translate([-3,-PILLAR_PITCH/2,0]){
-rotate([0,270,0]){
- nutcatch_parallel("M3", l=5);
-translate([0, 0, 50]) hole_through(name="M3", l=50+5, cl=0.1, h=10, hcl=0.4);
-//	translate([55, 0, 9]) nutcatch_sidecut("M5", l=100, clk=0.1, clh=0.1, clsl=0.1);
-}
-}
-
-}
-translate([50,0,0]){
-difference(){
-din_clip();
-//difference() {
-translate([-3,PILLAR_PITCH/2,0]){
-rotate([0,270,0]){
- nutcatch_parallel("M3", l=5);
-translate([0, 0, 50]) hole_through(name="M3", l=50+5, cl=0.1, h=10, hcl=0.4);
-//	translate([55, 0, 9]) nutcatch_sidecut("M5", l=100, clk=0.1, clh=0.1, clsl=0.1);
-}
-}
-
-translate([-3,-PILLAR_PITCH/2,0]){
-rotate([0,270,0]){
- nutcatch_parallel("M3", l=5);
-translate([0, 0, 50]) hole_through(name="M3", l=50+5, cl=0.1, h=10, hcl=0.4);
-//	translate([55, 0, 9]) nutcatch_sidecut("M5", l=100, clk=0.1, clh=0.1, clsl=0.1);
-}
-}
-
-}
-}
-}
-
-
-
-
-
-translate([-40,0,87]){
-rotate([0,270,0]){
-translate([-50,PILLAR_1_Y_OFFSET,0]){
-
-difference(){
-
-clip();
-rotate([90,0,90]){
+module allClips(){
      
-     translate([0,0,20])
-//cylinder(h=10, r1=3.1, r2=3.1, center=false, $fn=100);
-	   hole_through(name="M3", l=50+5, cl=0.1, h=10, hcl=0.4, $fn = 100);
-}
-}
+     translate([0,0,0]){
+	  difference(){
+	       din_clip();
 
-translate([0,0,157]){
-     difference(){
-clip();
- translate([20,0,0]){
-      rotate([90,0,90]){
- hole_through(name="M3", l=50+5, cl=0.1, h=10, hcl=0.4, $fn = 100);
-}
- }
- }
-translate([-1.5,4,-4]){
-cube([PILLAR_H-2,10,8]);
-}
-translate([-36.5,-112.5,3])
-#cube([38,131.5,3]);
-}
-translate([-1.5,4,-4]){
-cube([PILLAR_H-2,10,8]);
-translate([-32,10,0]){
-cube([35,5,165.1]);
-}
-translate([-35,-116.5,0]){
+	       translate([-3,PILLAR_PITCH/2,0]){
+		    rotate([0,270,0]){
+			 nutcatch_parallel("M3", l=5);
+			 translate([0, 0, 50]) hole_through(name="M3", l=50+5, cl=0.1, h=10, hcl=0.4);
 
-     #cube([5,131.5,165]);
-   
-     
-}
-}
-}
+		    }
+	       }
+	       
+	       translate([-3,-PILLAR_PITCH/2,0]){
+		    rotate([0,270,0]){
+			 nutcatch_parallel("M3", l=5);
 
+		    }
+	       }
 
-translate([-50,PILLAR_2_Y_OFFSET,0]){
-difference(){
+	  }
 
-clip2();
-rotate([90,0,90]){
-     
-     translate([0,0,20])
-//cylinder(h=10, r1=3.1, r2=3.1, center=false, $fn=100);
-	   hole_through(name="M3", l=50+5, cl=0.1, h=10, hcl=0.4, $fn = 100);
-}
-}
-
-translate([0,0,157]){
-     difference(){
-clip2();
- translate([20,0,0]){
-      rotate([90,0,90]){
- hole_through(name="M3", l=50+5, cl=0.1, h=10, hcl=0.4, $fn = 100);
-}
- }
-
- }
-      translate([-1.5,-14,-4]){
-cube([PILLAR_H-2,10,8]);
-}
      }
-translate([-1.5,-14,-4]){
-cube([PILLAR_H-2,10,8]);
-translate([-32,-5,0]){
-cube([35,5,165.1]);
-}
 
 
 }
-}
-}
-}
+

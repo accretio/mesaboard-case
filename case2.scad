@@ -116,5 +116,5 @@ module fan_screw_hole(){
      }
 }
 
-case_with_screws();
+//case_with_screws();
 
