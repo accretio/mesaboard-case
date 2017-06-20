@@ -1,4 +1,4 @@
-// Remix of http://www.thingiverse.com/thing:806093
+
 
 include <cyl_head_bolt.scad>
 
@@ -7,13 +7,13 @@ CLIP_H = 10;
 // Holes diameter
 HOLE_DIAMETER = 3.1;
 // Distance between the 2 holes
-PILLAR_PITCH = 93.7;
+PILLAR_PITCH = 93.98;
 
 // Height of the mounting bar
 MOUNT_H = 5;
 // Height of pillars
 PILLAR_H = 5;
-
+BOX_THICKNESS=5;
 PILLAR_1_Y_OFFSET = PILLAR_PITCH/2;
 PILLAR_2_Y_OFFSET = -PILLAR_PITCH/2;
 
@@ -24,8 +24,7 @@ module shape()
     xm = min([ for (x=p) x[0] ]);
     ym = min([ for (x=p) x[1] ]); 
     echo([xm, ym]);
-    translate([0,22.183,0]) // This offset is know by displaying 
-                            // DXF file a CAD software
+    translate([0,22.183,0])                
         rotate([180,0,0])
             translate([-xm, -ym])
                 polygon(p);
@@ -37,7 +36,6 @@ module din_clip() {
 		
 		union() {
             linear_extrude(height=CLIP_H, center=true, convexity=5) {
-                //import(file="PCB_din_clip.dxf", $fn=64);
                 shape();
             }
 		      
@@ -74,23 +72,33 @@ module din_clip() {
 }
 
 
-difference(){
-din_clip();
-//difference() {
-translate([-3,PILLAR_PITCH/2,0]){
-rotate([0,270,0]){
- nutcatch_parallel("M3", l=5);
-translate([0, 0, 50]) hole_through(name="M3", l=50+5, cl=0.1, h=10, hcl=0.4);
-//	translate([55, 0, 9]) nutcatch_sidecut("M5", l=100, clk=0.1, clh=0.1, clsl=0.1);
-}
+
+
+module allClips(){
+     
+     translate([0,0,0]){
+	  difference(){
+	       din_clip();
+
+	       translate([-3,PILLAR_PITCH/2,0]){
+		    rotate([0,270,0]){
+			 nutcatch_parallel("M3", l=5);
+			 translate([0, 0, 50]) hole_through(name="M3", l=50+5, cl=0.1, h=10, hcl=0.4);
+
+		    }
+	       }
+	       
+	       translate([-3,-PILLAR_PITCH/2,0]){
+		    rotate([0,270,0]){
+			 nutcatch_parallel("M3", l=5);
+
+		    }
+	       }
+
+	  }
+
+     }
+
+
 }
 
-translate([-3,-PILLAR_PITCH/2,0]){
-rotate([0,270,0]){
- nutcatch_parallel("M3", l=5);
-translate([0, 0, 50]) hole_through(name="M3", l=50+5, cl=0.1, h=10, hcl=0.4);
-//	translate([55, 0, 9]) nutcatch_sidecut("M5", l=100, clk=0.1, clh=0.1, clsl=0.1);
-}
-}
-
-}
