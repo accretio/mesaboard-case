@@ -1,13 +1,13 @@
 include <cyl_head_bolt.scad>
 
-BOARD_LENGTH=165.1;
+BOARD_LENGTH=127.0;
 BOARD_WIDTH=101.6;
 BOARD_TOLERANCE=2;
 BOARD_HEIGHT=35;
 CASE_THICKNESS=5;
 SUPPORT_RADIUS=4;
 BOARD_RECESS=2;
-SUPPORT_X=78.74;
+SUPPORT_X=59.69;
 SUPPORT_Y=46.99;
 HOLE_RADIUS=10;
 SOCKET_WIDTH=56;
@@ -116,5 +116,5 @@ module fan_screw_hole(){
      }
 }
 
-//case_with_screws();
+case_with_screws();
 

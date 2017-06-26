@@ -102,3 +102,4 @@ module allClips(){
 
 }
 
+din_clip();
